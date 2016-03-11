@@ -50,6 +50,18 @@ Object.assign(WebGLDeferredRenderer.prototype, {
         this.diffuseTexture = new PIXI.RenderTexture(this, this.width, this.height, null, this.resolution);
         this.normalsTexture = new PIXI.RenderTexture(this, this.width, this.height, null, this.resolution);
     },
+    
+    /**
+     * We need to resize the render targets as well as the usual stuff
+     */
+    resize: function(width, height)
+    {
+      PIXI.WebGLRenderer.prototype.resize.call(this, width, height);
+      if (this.diffuseTexture && this.normalsTexture) {
+        this.diffuseTexture.resize(width, height);
+        this.normalsTexture.resize(width, height);
+      }
+    },
 
     // TODO Optimizations:
     // Only call `updateTransform` once, right now it is call each render pass.
